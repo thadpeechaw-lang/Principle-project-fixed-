@@ -16,9 +16,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // ชี้ไปที่โฟลเดอร์ static/uploads/ ในโปรเจกต์โดยตรง
+        // รูปที่ commit ไว้ใน repo อยู่ใน classpath (ในไฟล์ jar)
+        // รูปที่เพิ่งอัปโหลดตอนรันอยู่ในโฟลเดอร์ข้างนอก jar ต้องชี้ไปอ่านด้วย ไม่งั้นรูปไม่ขึ้น
+        // (path แบบ relative นับจากโฟลเดอร์ที่รันแอป ตรงกับที่ controller เขียนไฟล์ไว้)
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("classpath:/static/uploads/");
+                .addResourceLocations(
+                        "classpath:/static/uploads/",
+                        "file:src/main/resources/static/uploads/");
     }
 
     @Override
